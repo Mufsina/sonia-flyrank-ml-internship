@@ -532,6 +532,23 @@
       opacity: 0.9;
     }
 
+    .download-button {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 9px 14px;
+      background: var(--success-light);
+      color: var(--success);
+      border: 1px solid #ccebd9;
+      border-radius: 9px;
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .download-button:hover {
+      text-decoration: none;
+      opacity: 0.9;
+    }
+
     footer {
       background: var(--dark);
       color: white;
@@ -1073,8 +1090,6 @@
         </div>
 
 
-        <!-- Result cards -->
-
         <div class="results-grid">
 
           <div class="result-card">
@@ -1132,8 +1147,6 @@
         </div>
 
 
-        <!-- Model vs baseline chart -->
-
         <div class="chart-card">
 
           <h3>Model versus baseline evaluation</h3>
@@ -1141,6 +1154,7 @@
           <img
             src="figures/model_vs_baseline.png"
             alt="Bar chart comparing Random Forest F1 score with the Week-4 baseline"
+            loading="lazy"
           />
 
           <p class="chart-caption">
@@ -1149,8 +1163,6 @@
 
         </div>
 
-
-        <!-- Feature importance -->
 
         <div class="chart-card">
 
@@ -1169,6 +1181,7 @@
           <img
             src="figures/feature_importance.png"
             alt="Top Random Forest feature importance chart"
+            loading="lazy"
           />
 
           <p class="chart-caption">
@@ -1219,10 +1232,7 @@
         <div class="recommendations">
 
           <div class="recommendation">
-
-            <div class="recommendation-number">
-              01
-            </div>
+            <div class="recommendation-number">01</div>
 
             <div>
               <h3>STALE_HIGH_VOLUME</h3>
@@ -1233,15 +1243,11 @@
                 whether a refresh is justified.
               </p>
             </div>
-
           </div>
 
 
           <div class="recommendation">
-
-            <div class="recommendation-number">
-              02
-            </div>
+            <div class="recommendation-number">02</div>
 
             <div>
               <h3>THIN_VISIBLE</h3>
@@ -1252,15 +1258,11 @@
                 examples, and definitions.
               </p>
             </div>
-
           </div>
 
 
           <div class="recommendation">
-
-            <div class="recommendation-number">
-              03
-            </div>
+            <div class="recommendation-number">03</div>
 
             <div>
               <h3>POSITION_OPPORTUNITY</h3>
@@ -1271,15 +1273,11 @@
                 review opportunity.
               </p>
             </div>
-
           </div>
 
 
           <div class="recommendation">
-
-            <div class="recommendation-number">
-              04
-            </div>
+            <div class="recommendation-number">04</div>
 
             <div>
               <h3>REFRESH_REVIEW</h3>
@@ -1289,15 +1287,11 @@
                 whether a content refresh is warranted.
               </p>
             </div>
-
           </div>
 
 
           <div class="recommendation">
-
-            <div class="recommendation-number">
-              05
-            </div>
+            <div class="recommendation-number">05</div>
 
             <div>
               <h3>MONITOR</h3>
@@ -1307,13 +1301,10 @@
                 is not strong enough to justify immediate review.
               </p>
             </div>
-
           </div>
 
         </div>
 
-
-        <!-- Recommendation chart -->
 
         <div class="chart-card">
 
@@ -1322,6 +1313,7 @@
           <img
             src="figures/recommendation_distribution.png"
             alt="Distribution of content recommendation reason codes"
+            loading="lazy"
           />
 
           <p class="chart-caption">
@@ -1331,27 +1323,27 @@
         </div>
 
 
-        <!-- Recommendation table -->
-
         <div class="table-wrapper">
 
           <table>
 
             <thead>
-
               <tr>
                 <th>Recommendation</th>
                 <th>Generated artifact</th>
                 <th>Decision-support action</th>
               </tr>
-
             </thead>
 
             <tbody>
 
               <tr>
                 <td>POSITION_OPPORTUNITY</td>
-                <td>See recommendation_summary.csv</td>
+                <td>
+                  <a href="outputs/recommendation_summary.csv" target="_blank">
+                    recommendation_summary.csv
+                  </a>
+                </td>
                 <td>
                   Review position, intent, completeness and structure
                 </td>
@@ -1359,7 +1351,11 @@
 
               <tr>
                 <td>MONITOR</td>
-                <td>See recommendation_summary.csv</td>
+                <td>
+                  <a href="outputs/recommendation_summary.csv" target="_blank">
+                    recommendation_summary.csv
+                  </a>
+                </td>
                 <td>
                   Continue monitoring before action
                 </td>
@@ -1367,7 +1363,11 @@
 
               <tr>
                 <td>THIN_VISIBLE</td>
-                <td>See recommendation_summary.csv</td>
+                <td>
+                  <a href="outputs/recommendation_summary.csv" target="_blank">
+                    recommendation_summary.csv
+                  </a>
+                </td>
                 <td>
                   Review content depth and missing useful information
                 </td>
@@ -1375,7 +1375,11 @@
 
               <tr>
                 <td>STALE_HIGH_VOLUME</td>
-                <td>See recommendation_summary.csv</td>
+                <td>
+                  <a href="outputs/recommendation_summary.csv" target="_blank">
+                    recommendation_summary.csv
+                  </a>
+                </td>
                 <td>
                   Review older high-visibility content
                 </td>
@@ -1383,7 +1387,11 @@
 
               <tr>
                 <td>REFRESH_REVIEW</td>
-                <td>See recommendation_summary.csv</td>
+                <td>
+                  <a href="outputs/recommendation_summary.csv" target="_blank">
+                    recommendation_summary.csv
+                  </a>
+                </td>
                 <td>
                   Review freshness and potential refresh needs
                 </td>
@@ -1395,8 +1403,6 @@
 
         </div>
 
-
-        <!-- Model / Playbook relationship -->
 
         <div style="margin-top: 65px;">
 
@@ -1630,11 +1636,19 @@
             View Capstone Notebook
           </a>
 
+          <a
+            class="repo-button"
+            href="outputs/recommendation_summary.csv"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View Recommendation CSV
+          </a>
+
         </div>
 
 
         <div class="code-box">
-
 Repository:
 https://github.com/Mufsina/sonia-flyrank-ml-internship
 
@@ -1647,10 +1661,7 @@ docs/figures/feature_importance.png
 docs/figures/recommendation_distribution.png
 
 Generated outputs:
-docs/outputs/model_results.csv
-docs/outputs/feature_importance.csv
 docs/outputs/recommendation_summary.csv
-
         </div>
 
       </div>
@@ -1726,10 +1737,8 @@ docs/outputs/recommendation_summary.csv
       </p>
 
       <div class="footer-bottom">
-
         Built for the FlyRank ML Internship Capstone ·
         Machine Learning Track · 2026
-
       </div>
 
     </div>
