@@ -508,6 +508,8 @@
       overflow-x: auto;
       font-family: "SFMono-Regular", Consolas, monospace;
       font-size: 0.9rem;
+      white-space: pre-wrap;
+      word-break: break-word;
     }
 
     .repo-links {
@@ -528,23 +530,6 @@
     }
 
     .repo-button:hover {
-      text-decoration: none;
-      opacity: 0.9;
-    }
-
-    .download-button {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 9px 14px;
-      background: var(--success-light);
-      color: var(--success);
-      border: 1px solid #ccebd9;
-      border-radius: 9px;
-      font-size: 0.86rem;
-      font-weight: 700;
-    }
-
-    .download-button:hover {
       text-decoration: none;
       opacity: 0.9;
     }
@@ -1147,14 +1132,16 @@
         </div>
 
 
+        <!-- MODEL VS BASELINE IMAGE -->
+
         <div class="chart-card">
 
           <h3>Model versus baseline evaluation</h3>
 
-          
           <img
-            src="work/notebooks/figures/model_vs_baseline.png"
+            src="docs/figures/model_vs_baseline.png"
             alt="Bar chart comparing Random Forest F1 score with the Week-4 baseline"
+            loading="lazy"
           />
 
           <p class="chart-caption">
@@ -1164,25 +1151,25 @@
         </div>
 
 
+        <!-- FEATURE IMPORTANCE IMAGE -->
+
         <div class="chart-card">
 
           <h3>Random Forest feature importance</h3>
 
           <p class="content" style="color: var(--muted);">
-
             The chart below shows variables with higher feature-importance
             values within the fitted Random Forest on the evaluated sample.
             These values describe model behavior and should not be interpreted
             as causal search-ranking factors or proof of Google's ranking
             signals.
-
           </p>
 
-         
-            <img src="work/notebooks/figures/feature_importance.png" alt="Feature Importance">
-            
-           
-        
+          <img
+            src="docs/figures/feature_importance.png"
+            alt="Random Forest feature importance"
+            loading="lazy"
+          />
 
           <p class="chart-caption">
             Top model feature importances in the evaluated sample.
@@ -1306,14 +1293,17 @@
         </div>
 
 
+        <!-- RECOMMENDATION DISTRIBUTION IMAGE -->
+
         <div class="chart-card">
 
           <h3>Recommendation distribution</h3>
 
-         
-            <img src="work/notebooks/figures/recommendation_distribution.png" alt="Recommendation Distribution">
-         
-
+          <img
+            src="docs/figures/recommendation_distribution.png"
+            alt="Recommendation distribution across the 30,000-item action queue"
+            loading="lazy"
+          />
 
           <p class="chart-caption">
             Distribution of reason codes across the 30,000-item action queue.
@@ -1339,7 +1329,11 @@
               <tr>
                 <td>POSITION_OPPORTUNITY</td>
                 <td>
-                  <a href="outputs/recommendation_summary.csv" target="_blank">
+                  <a
+                    href="docs/outputs/recommendation_summary.csv"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     recommendation_summary.csv
                   </a>
                 </td>
@@ -1351,7 +1345,11 @@
               <tr>
                 <td>MONITOR</td>
                 <td>
-                  <a href="outputs/recommendation_summary.csv" target="_blank">
+                  <a
+                    href="docs/outputs/recommendation_summary.csv"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     recommendation_summary.csv
                   </a>
                 </td>
@@ -1363,7 +1361,11 @@
               <tr>
                 <td>THIN_VISIBLE</td>
                 <td>
-                  <a href="outputs/recommendation_summary.csv" target="_blank">
+                  <a
+                    href="docs/outputs/recommendation_summary.csv"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     recommendation_summary.csv
                   </a>
                 </td>
@@ -1375,7 +1377,11 @@
               <tr>
                 <td>STALE_HIGH_VOLUME</td>
                 <td>
-                  <a href="outputs/recommendation_summary.csv" target="_blank">
+                  <a
+                    href="docs/outputs/recommendation_summary.csv"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     recommendation_summary.csv
                   </a>
                 </td>
@@ -1387,7 +1393,11 @@
               <tr>
                 <td>REFRESH_REVIEW</td>
                 <td>
-                  <a href="outputs/recommendation_summary.csv" target="_blank">
+                  <a
+                    href="docs/outputs/recommendation_summary.csv"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     recommendation_summary.csv
                   </a>
                 </td>
@@ -1637,7 +1647,7 @@
 
           <a
             class="repo-button"
-            href="outputs/recommendation_summary.csv"
+            href="docs/outputs/recommendation_summary.csv"
             target="_blank"
             rel="noopener noreferrer"
           >
