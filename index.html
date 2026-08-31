@@ -20,8 +20,6 @@
       --border: #e5e7ef;
       --accent: #5b4bdb;
       --accent-light: #eeecff;
-      --success: #18794e;
-      --success-light: #e8f7ef;
       --dark: #151625;
       --warning: #9a6700;
       --warning-light: #fffaf0;
@@ -67,11 +65,15 @@
       margin: 0 auto;
     }
 
+    /* =========================
+       NAVIGATION
+    ========================= */
+
     nav {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(255, 255, 255, 0.94);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
     }
@@ -81,24 +83,26 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 30px;
+      gap: 25px;
     }
 
     .logo {
       font-weight: 800;
       color: var(--dark);
       letter-spacing: -0.5px;
+      white-space: nowrap;
     }
 
     .nav-links {
       display: flex;
-      gap: 20px;
+      gap: 18px;
       list-style: none;
       flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .nav-links a {
-      font-size: 0.88rem;
+      font-size: 0.84rem;
       color: var(--muted);
       font-weight: 650;
     }
@@ -107,6 +111,10 @@
       color: var(--accent);
       text-decoration: none;
     }
+
+    /* =========================
+       HERO
+    ========================= */
 
     .hero {
       padding: 105px 0 85px;
@@ -160,6 +168,10 @@
       color: var(--muted);
     }
 
+    /* =========================
+       SECTIONS
+    ========================= */
+
     section {
       padding: 85px 0;
       scroll-margin-top: 75px;
@@ -204,6 +216,10 @@
       margin-bottom: 18px;
     }
 
+    /* =========================
+       CARDS
+    ========================= */
+
     .grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -231,6 +247,10 @@
       font-size: 0.94rem;
     }
 
+    /* =========================
+       STATS
+    ========================= */
+
     .stats {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -256,6 +276,10 @@
       margin-top: 5px;
       font-size: 0.9rem;
     }
+
+    /* =========================
+       METHODOLOGY FLOW
+    ========================= */
 
     .flow {
       display: grid;
@@ -284,6 +308,10 @@
       margin-top: 5px;
     }
 
+    /* =========================
+       FEATURE LIST
+    ========================= */
+
     .feature-list {
       columns: 2;
       column-gap: 50px;
@@ -296,6 +324,10 @@
       color: var(--muted);
       break-inside: avoid;
     }
+
+    /* =========================
+       RESULTS
+    ========================= */
 
     .results-grid {
       display: grid;
@@ -362,6 +394,10 @@
       font-weight: 650;
     }
 
+    /* =========================
+       CHARTS
+    ========================= */
+
     .chart-card {
       margin-top: 35px;
       background: white;
@@ -387,6 +423,10 @@
       margin-top: 15px;
       text-align: center;
     }
+
+    /* =========================
+       RECOMMENDATIONS
+    ========================= */
 
     .recommendations {
       display: grid;
@@ -420,6 +460,10 @@
       color: var(--muted);
       margin-top: 5px;
     }
+
+    /* =========================
+       TABLE
+    ========================= */
 
     .table-wrapper {
       overflow-x: auto;
@@ -456,6 +500,10 @@
       border-bottom: none;
     }
 
+    /* =========================
+       WARNING
+    ========================= */
+
     .warning {
       background: var(--warning-light);
       border: 1px solid #f1dfb5;
@@ -473,6 +521,10 @@
       padding-left: 20px;
       color: var(--muted);
     }
+
+    /* =========================
+       RELATIONSHIP
+    ========================= */
 
     .relationship {
       display: grid;
@@ -499,6 +551,10 @@
       font-size: 0.94rem;
     }
 
+    /* =========================
+       CODE BOX
+    ========================= */
+
     .code-box {
       background: var(--dark);
       color: #e8e9f2;
@@ -511,6 +567,10 @@
       white-space: pre-wrap;
       word-break: break-word;
     }
+
+    /* =========================
+       REPOSITORY LINKS
+    ========================= */
 
     .repo-links {
       display: flex;
@@ -534,6 +594,10 @@
       opacity: 0.9;
     }
 
+    /* =========================
+       FOOTER
+    ========================= */
+
     footer {
       background: var(--dark);
       color: white;
@@ -554,6 +618,10 @@
       color: #9699aa;
     }
 
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
     @media (max-width: 950px) {
       .stats {
         grid-template-columns: repeat(2, 1fr);
@@ -570,6 +638,7 @@
 
       .nav-links {
         gap: 12px;
+        justify-content: flex-start;
       }
 
       .grid,
@@ -608,15 +677,19 @@
       .stats {
         grid-template-columns: 1fr;
       }
+
+      .score {
+        font-size: 2.7rem;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- ========================================================= -->
-  <!-- NAVIGATION -->
-  <!-- ========================================================= -->
+  <!-- =========================================================
+       NAVIGATION
+  ========================================================== -->
 
   <nav>
     <div class="container nav-inner">
@@ -634,15 +707,16 @@
         <li><a href="#recommendations">Recommendations</a></li>
         <li><a href="#limitations">Limitations</a></li>
         <li><a href="#reproducibility">Reproducibility</a></li>
+        <li><a href="#acknowledgments">Credit</a></li>
       </ul>
 
     </div>
   </nav>
 
 
-  <!-- ========================================================= -->
-  <!-- HERO -->
-  <!-- ========================================================= -->
+  <!-- =========================================================
+       HERO
+  ========================================================== -->
 
   <header class="hero">
     <div class="container">
@@ -673,9 +747,9 @@
 
   <main>
 
-    <!-- ========================================================= -->
-    <!-- ABSTRACT -->
-    <!-- ========================================================= -->
+    <!-- =========================================================
+         01 ABSTRACT
+    ========================================================== -->
 
     <section id="abstract">
       <div class="container">
@@ -718,9 +792,9 @@
     </section>
 
 
-    <!-- ========================================================= -->
-    <!-- INTRODUCTION -->
-    <!-- ========================================================= -->
+    <!-- =========================================================
+         02 INTRODUCTION
+    ========================================================== -->
 
     <section id="introduction">
       <div class="container">
@@ -757,7 +831,9 @@
 
           <div class="card">
             <div class="card-number">DECISION</div>
+
             <h3>What to review first?</h3>
+
             <p>
               Prioritize content pages for human review when editorial
               resources are limited.
@@ -766,7 +842,9 @@
 
           <div class="card">
             <div class="card-number">INPUT</div>
+
             <h3>Observed signals</h3>
+
             <p>
               Search visibility, engagement, content age, freshness,
               position, and related content attributes.
@@ -775,7 +853,9 @@
 
           <div class="card">
             <div class="card-number">OUTPUT</div>
+
             <h3>Ranked queue</h3>
+
             <p>
               A decision-support queue with reason codes and recommended
               review actions.
@@ -788,9 +868,9 @@
     </section>
 
 
-    <!-- ========================================================= -->
-    <!-- DATA -->
-    <!-- ========================================================= -->
+    <!-- =========================================================
+         03 DATA
+    ========================================================== -->
 
     <section id="data">
       <div class="container">
@@ -889,9 +969,9 @@
     </section>
 
 
-    <!-- ========================================================= -->
-    <!-- METHODOLOGY -->
-    <!-- ========================================================= -->
+    <!-- =========================================================
+         04 METHODOLOGY
+    ========================================================== -->
 
     <section id="methodology">
       <div class="container">
@@ -991,7 +1071,6 @@
           <h3>Feature groups</h3>
 
           <ul class="feature-list">
-
             <li>Search volume</li>
             <li>Competition</li>
             <li>CPC</li>
@@ -1026,7 +1105,6 @@
             <li>Character count tier</li>
             <li>Impression tier</li>
             <li>Position tier</li>
-
           </ul>
 
         </div>
@@ -1035,9 +1113,9 @@
     </section>
 
 
-    <!-- ========================================================= -->
-    <!-- RESULTS -->
-    <!-- ========================================================= -->
+    <!-- =========================================================
+         05 RESULTS
+    ========================================================== -->
 
     <section id="results">
       <div class="container">
@@ -1074,7 +1152,6 @@
 
         </div>
 
-
         <div class="results-grid">
 
           <div class="result-card">
@@ -1096,7 +1173,6 @@
             </div>
 
           </div>
-
 
           <div class="result-card">
 
@@ -1120,7 +1196,6 @@
 
         </div>
 
-
         <div class="result-highlight">
 
           <strong>Key finding:</strong>
@@ -1132,7 +1207,7 @@
         </div>
 
 
-        <!-- MODEL VS BASELINE IMAGE -->
+        <!-- MODEL VS BASELINE -->
 
         <div class="chart-card">
 
@@ -1151,13 +1226,13 @@
         </div>
 
 
-        <!-- FEATURE IMPORTANCE IMAGE -->
+        <!-- FEATURE IMPORTANCE -->
 
         <div class="chart-card">
 
           <h3>Random Forest feature importance</h3>
 
-          <p class="content" style="color: var(--muted);">
+          <p style="color: var(--muted); max-width: 850px;">
             The chart below shows variables with higher feature-importance
             values within the fitted Random Forest on the evaluated sample.
             These values describe model behavior and should not be interpreted
@@ -1181,9 +1256,9 @@
     </section>
 
 
-    <!-- ========================================================= -->
-    <!-- RECOMMENDATIONS -->
-    <!-- ========================================================= -->
+    <!-- =========================================================
+         06 RECOMMENDATIONS
+    ========================================================== -->
 
     <section id="recommendations">
       <div class="container">
@@ -1215,11 +1290,13 @@
 
         </div>
 
-
         <div class="recommendations">
 
           <div class="recommendation">
-            <div class="recommendation-number">01</div>
+
+            <div class="recommendation-number">
+              01
+            </div>
 
             <div>
               <h3>STALE_HIGH_VOLUME</h3>
@@ -1230,11 +1307,15 @@
                 whether a refresh is justified.
               </p>
             </div>
+
           </div>
 
 
           <div class="recommendation">
-            <div class="recommendation-number">02</div>
+
+            <div class="recommendation-number">
+              02
+            </div>
 
             <div>
               <h3>THIN_VISIBLE</h3>
@@ -1245,11 +1326,15 @@
                 examples, and definitions.
               </p>
             </div>
+
           </div>
 
 
           <div class="recommendation">
-            <div class="recommendation-number">03</div>
+
+            <div class="recommendation-number">
+              03
+            </div>
 
             <div>
               <h3>POSITION_OPPORTUNITY</h3>
@@ -1260,11 +1345,15 @@
                 review opportunity.
               </p>
             </div>
+
           </div>
 
 
           <div class="recommendation">
-            <div class="recommendation-number">04</div>
+
+            <div class="recommendation-number">
+              04
+            </div>
 
             <div>
               <h3>REFRESH_REVIEW</h3>
@@ -1274,11 +1363,15 @@
                 whether a content refresh is warranted.
               </p>
             </div>
+
           </div>
 
 
           <div class="recommendation">
-            <div class="recommendation-number">05</div>
+
+            <div class="recommendation-number">
+              05
+            </div>
 
             <div>
               <h3>MONITOR</h3>
@@ -1288,12 +1381,13 @@
                 is not strong enough to justify immediate review.
               </p>
             </div>
+
           </div>
 
         </div>
 
 
-        <!-- RECOMMENDATION DISTRIBUTION IMAGE -->
+        <!-- RECOMMENDATION DISTRIBUTION -->
 
         <div class="chart-card">
 
@@ -1312,22 +1406,30 @@
         </div>
 
 
+        <!-- RECOMMENDATION TABLE -->
+
         <div class="table-wrapper">
 
           <table>
 
             <thead>
+
               <tr>
                 <th>Recommendation</th>
                 <th>Generated artifact</th>
                 <th>Decision-support action</th>
               </tr>
+
             </thead>
 
             <tbody>
 
               <tr>
-                <td>POSITION_OPPORTUNITY</td>
+
+                <td>
+                  POSITION_OPPORTUNITY
+                </td>
+
                 <td>
                   <a
                     href="docs/outputs/recommendation_summary.csv"
@@ -1337,13 +1439,20 @@
                     recommendation_summary.csv
                   </a>
                 </td>
+
                 <td>
                   Review position, intent, completeness and structure
                 </td>
+
               </tr>
 
+
               <tr>
-                <td>MONITOR</td>
+
+                <td>
+                  MONITOR
+                </td>
+
                 <td>
                   <a
                     href="docs/outputs/recommendation_summary.csv"
@@ -1353,13 +1462,20 @@
                     recommendation_summary.csv
                   </a>
                 </td>
+
                 <td>
                   Continue monitoring before action
                 </td>
+
               </tr>
 
+
               <tr>
-                <td>THIN_VISIBLE</td>
+
+                <td>
+                  THIN_VISIBLE
+                </td>
+
                 <td>
                   <a
                     href="docs/outputs/recommendation_summary.csv"
@@ -1369,13 +1485,20 @@
                     recommendation_summary.csv
                   </a>
                 </td>
+
                 <td>
                   Review content depth and missing useful information
                 </td>
+
               </tr>
 
+
               <tr>
-                <td>STALE_HIGH_VOLUME</td>
+
+                <td>
+                  STALE_HIGH_VOLUME
+                </td>
+
                 <td>
                   <a
                     href="docs/outputs/recommendation_summary.csv"
@@ -1385,13 +1508,20 @@
                     recommendation_summary.csv
                   </a>
                 </td>
+
                 <td>
                   Review older high-visibility content
                 </td>
+
               </tr>
 
+
               <tr>
-                <td>REFRESH_REVIEW</td>
+
+                <td>
+                  REFRESH_REVIEW
+                </td>
+
                 <td>
                   <a
                     href="docs/outputs/recommendation_summary.csv"
@@ -1401,9 +1531,11 @@
                     recommendation_summary.csv
                   </a>
                 </td>
+
                 <td>
                   Review freshness and potential refresh needs
                 </td>
+
               </tr>
 
             </tbody>
@@ -1412,6 +1544,8 @@
 
         </div>
 
+
+        <!-- MODEL + PLAYBOOK -->
 
         <div style="margin-top: 65px;">
 
@@ -1496,9 +1630,9 @@
     </section>
 
 
-    <!-- ========================================================= -->
-    <!-- LIMITATIONS -->
-    <!-- ========================================================= -->
+    <!-- =========================================================
+         07 LIMITATIONS
+    ========================================================== -->
 
     <section id="limitations">
       <div class="container">
@@ -1588,9 +1722,9 @@
     </section>
 
 
-    <!-- ========================================================= -->
-    <!-- REPRODUCIBILITY -->
-    <!-- ========================================================= -->
+    <!-- =========================================================
+         08 REPRODUCIBILITY
+    ========================================================== -->
 
     <section id="reproducibility">
       <div class="container">
@@ -1636,6 +1770,7 @@
             View GitHub Repository
           </a>
 
+
           <a
             class="repo-button"
             href="https://github.com/Mufsina/sonia-flyrank-ml-internship/blob/main/work/notebooks/capstone.ipynb"
@@ -1644,6 +1779,7 @@
           >
             View Capstone Notebook
           </a>
+
 
           <a
             class="repo-button"
@@ -1657,29 +1793,28 @@
         </div>
 
 
-        <div class="code-box">
-Repository:
+        <div class="code-box">Repository:
 https://github.com/Mufsina/sonia-flyrank-ml-internship
 
 Capstone notebook:
 work/notebooks/capstone.ipynb
 
 Figures:
-work/notebooks/figures/model_vs_baseline.png
-work/notebooks/figures/feature_importance.png
-work/notebooks/figures/recommendation_distribution.png
+docs/figures/model_vs_baseline.png
+docs/figures/feature_importance.png
+docs/figures/recommendation_distribution.png
 
 Generated outputs:
-outputs/recommendation_summary.csv
-</div>
+docs/outputs/recommendation_summary.csv
+        </div>
 
       </div>
     </section>
 
 
-    <!-- ========================================================= -->
-    <!-- ACKNOWLEDGMENTS -->
-    <!-- ========================================================= -->
+    <!-- =========================================================
+         09 ACKNOWLEDGMENTS
+    ========================================================== -->
 
     <section id="acknowledgments">
       <div class="container">
@@ -1728,9 +1863,9 @@ outputs/recommendation_summary.csv
   </main>
 
 
-  <!-- ========================================================= -->
-  <!-- FOOTER -->
-  <!-- ========================================================= -->
+  <!-- =========================================================
+       FOOTER
+  ========================================================== -->
 
   <footer>
 
