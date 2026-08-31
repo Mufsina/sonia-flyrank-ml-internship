@@ -233,7 +233,7 @@
 
     .stats {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 18px;
       margin-top: 40px;
     }
@@ -345,19 +345,20 @@
     }
 
     .baseline-bar {
-      width: 31.8%;
+      width: 100%;
     }
 
     .model-bar {
-      width: 100%;
+      width: 93.12%;
     }
 
     .result-highlight {
       margin-top: 30px;
       padding: 22px;
       border-radius: 14px;
-      background: var(--success-light);
-      color: var(--success);
+      background: var(--warning-light);
+      border: 1px solid #f1dfb5;
+      color: var(--warning);
       font-weight: 650;
     }
 
@@ -377,6 +378,7 @@
       height: auto;
       margin: 20px auto 0;
       border-radius: 12px;
+      border: 1px solid var(--border);
     }
 
     .chart-caption {
@@ -497,13 +499,6 @@
       font-size: 0.94rem;
     }
 
-    .relationship-arrow {
-      display: grid;
-      place-items: center;
-      font-size: 2rem;
-      color: var(--accent);
-    }
-
     .code-box {
       background: var(--dark);
       color: #e8e9f2;
@@ -557,6 +552,12 @@
       color: #9699aa;
     }
 
+    @media (max-width: 950px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
     @media (max-width: 850px) {
       .nav-inner {
         padding: 12px 0;
@@ -570,7 +571,6 @@
       }
 
       .grid,
-      .stats,
       .results-grid,
       .relationship {
         grid-template-columns: 1fr;
@@ -602,13 +602,19 @@
       h1 {
         font-size: 2.6rem;
       }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Navigation -->
+  <!-- ========================================================= -->
+  <!-- NAVIGATION -->
+  <!-- ========================================================= -->
 
   <nav>
     <div class="container nav-inner">
@@ -632,7 +638,9 @@
   </nav>
 
 
-  <!-- Hero -->
+  <!-- ========================================================= -->
+  <!-- HERO -->
+  <!-- ========================================================= -->
 
   <header class="hero">
     <div class="container">
@@ -663,7 +671,9 @@
 
   <main>
 
-    <!-- Abstract -->
+    <!-- ========================================================= -->
+    <!-- ABSTRACT -->
+    <!-- ========================================================= -->
 
     <section id="abstract">
       <div class="container">
@@ -682,13 +692,21 @@
             from the FlyRank ML Internship dataset, the analysis defines a
             binary target for observed downward trend and evaluates a Random
             Forest model against a Week-4 baseline using a grouped-by-client
-            validation split. The Random Forest achieved a measured F1 score
-            of 0.5913 compared with 0.1881 for the baseline on the same
-            evaluation framing. The model and observed content signals were
-            then used as separate evidence layers for a ranked
-            decision-support queue with human-readable reason codes. These
-            results are directional evidence from the evaluated sample and
-            should not be interpreted as causal proof that a recommended
+            validation split.
+          </p>
+
+          <p class="lead">
+            On the evaluated split, the Random Forest achieved a measured
+            F1 score of <strong>0.6343</strong>, while the Week-4 baseline
+            achieved <strong>0.6812</strong>. The baseline therefore performed
+            better on this particular evaluation. The model and observed
+            content signals were then used as evidence layers for a ranked
+            decision-support queue with human-readable reason codes.
+          </p>
+
+          <p class="lead">
+            These results are directional evidence from the evaluated sample
+            and should not be interpreted as causal proof that a recommended
             content action will improve search performance.
           </p>
 
@@ -698,7 +716,9 @@
     </section>
 
 
-    <!-- Introduction -->
+    <!-- ========================================================= -->
+    <!-- INTRODUCTION -->
+    <!-- ========================================================= -->
 
     <section id="introduction">
       <div class="container">
@@ -766,7 +786,9 @@
     </section>
 
 
-    <!-- Data -->
+    <!-- ========================================================= -->
+    <!-- DATA -->
+    <!-- ========================================================= -->
 
     <section id="data">
       <div class="container">
@@ -784,11 +806,13 @@
           </p>
 
           <p>
-            The evaluated working sample contains 30,000 rows, 44 columns,
-            and 32 clients. The analysis focuses on public-safe aggregate
-            signals such as search volume, competition, impressions, clicks,
-            pageviews, sessions, content age, freshness, search position,
-            and engagement-related measures.
+            The evaluated working sample contains
+            <strong>30,000 rows</strong>,
+            <strong>44 columns</strong>, and
+            <strong>32 clients</strong>. The analysis focuses on public-safe
+            aggregate signals such as search volume, competition, impressions,
+            clicks, pageviews, sessions, content age, freshness, search
+            position, and engagement-related measures.
           </p>
 
           <p>
@@ -810,13 +834,36 @@
 
           <div class="stat">
             <div class="stat-value">44</div>
-            <div class="stat-label">Columns in working dataset</div>
+            <div class="stat-label">Columns</div>
           </div>
 
           <div class="stat">
             <div class="stat-value">32</div>
-            <div class="stat-label">Clients represented</div>
+            <div class="stat-label">Clients</div>
           </div>
+
+          <div class="stat">
+            <div class="stat-value">34</div>
+            <div class="stat-label">Model features</div>
+          </div>
+
+        </div>
+
+        <div class="card" style="margin-top: 30px;">
+
+          <h3>Target distribution</h3>
+
+          <p>
+            The evaluated dataset contains
+            <strong>16,262</strong> observations in the downward-trend class
+            and <strong>13,738</strong> observations in the non-downward class.
+          </p>
+
+          <p>
+            This corresponds to approximately
+            <strong>54.21%</strong> down and
+            <strong>45.79%</strong> non-down.
+          </p>
 
         </div>
 
@@ -840,7 +887,9 @@
     </section>
 
 
-    <!-- Methodology -->
+    <!-- ========================================================= -->
+    <!-- METHODOLOGY -->
+    <!-- ========================================================= -->
 
     <section id="methodology">
       <div class="container">
@@ -861,8 +910,6 @@
             The binary target is defined as 1 when
             <strong>trend_direction = down</strong> and 0 when
             <strong>trend_direction = up or stable</strong>.
-            The source target column and derived target label are excluded
-            from the model feature set to avoid direct target leakage.
           </p>
 
           <p>
@@ -871,17 +918,26 @@
           </p>
 
           <p>
-            The model uses 34 content and performance features covering search
-            demand, competition, content length, impressions, clicks,
-            pageviews, sessions, users, engagement signals, content age,
-            freshness, search position, and categorical content attributes.
+            The model uses <strong>34 content and performance features</strong>
+            covering search demand, competition, content length, impressions,
+            clicks, pageviews, sessions, users, engagement signals, content
+            age, freshness, search position, and categorical content
+            attributes.
           </p>
 
           <p>
             Validation uses a grouped-by-client split so that content from
             the same client does not appear in both training and test data.
-            The evaluated split contained 25 training clients and 7 test
-            clients, with zero client overlap.
+            The evaluated split contained
+            <strong>24 training clients</strong> and
+            <strong>8 test clients</strong>, with
+            <strong>zero client overlap</strong>.
+          </p>
+
+          <p>
+            The split contained
+            <strong>22,885 training rows</strong> and
+            <strong>7,115 test rows</strong>.
           </p>
 
           <p>
@@ -903,7 +959,7 @@
 
           <div class="flow-item">
             <strong>Features</strong>
-            <span>Observed signals</span>
+            <span>34 observed signals</span>
           </div>
 
           <div class="flow-item">
@@ -950,17 +1006,23 @@
             <li>Days with impressions</li>
             <li>Days with sessions</li>
             <li>Content age</li>
+            <li>Age tier order</li>
             <li>Days since last update</li>
             <li>CTR</li>
             <li>Average position</li>
             <li>Engagement rate</li>
             <li>Scroll rate</li>
             <li>AI traffic percentage</li>
+            <li>Competition level</li>
             <li>Content type</li>
             <li>Main intent</li>
             <li>Provider used</li>
             <li>Model used</li>
+            <li>Age tier</li>
             <li>Freshness tier</li>
+            <li>Word count tier</li>
+            <li>Character count tier</li>
+            <li>Impression tier</li>
             <li>Position tier</li>
 
           </ul>
@@ -971,7 +1033,9 @@
     </section>
 
 
-    <!-- Results -->
+    <!-- ========================================================= -->
+    <!-- RESULTS -->
+    <!-- ========================================================= -->
 
     <section id="results">
       <div class="container">
@@ -984,19 +1048,32 @@
 
           <p>
             On the evaluated grouped-by-client split, the Week-5 Random Forest
-            produced a measured F1 score of <strong>0.5913</strong>. The
-            Week-4 baseline produced an F1 score of
-            <strong>0.1881</strong> on the same evaluation framing.
+            produced a measured F1 score of
+            <strong>0.6343</strong>.
           </p>
 
           <p>
-            The Random Forest therefore showed a higher measured F1 score than
-            the baseline in this evaluation. This is an observed result on the
-            evaluated data, not evidence that the model will perform the same
-            way on all future clients or datasets.
+            The Week-4 baseline produced a measured F1 score of
+            <strong>0.6812</strong> on the same evaluation framing.
+          </p>
+
+          <p>
+            Therefore, the Random Forest did
+            <strong>not outperform the baseline</strong> in this evaluation.
+            The baseline exceeded the Random Forest by approximately
+            <strong>0.0469 F1 points</strong>.
+          </p>
+
+          <p>
+            This is an observed result on the evaluated data. It should not
+            be interpreted as evidence that the baseline or Random Forest will
+            perform the same way on all future clients or datasets.
           </p>
 
         </div>
+
+
+        <!-- Result cards -->
 
         <div class="results-grid">
 
@@ -1007,7 +1084,7 @@
             </div>
 
             <div class="score">
-              0.1881
+              0.6812
             </div>
 
             <div class="score-label">
@@ -1020,6 +1097,7 @@
 
           </div>
 
+
           <div class="result-card">
 
             <div class="result-name">
@@ -1027,7 +1105,7 @@
             </div>
 
             <div class="score">
-              0.5913
+              0.6343
             </div>
 
             <div class="score-label">
@@ -1042,14 +1120,17 @@
 
         </div>
 
+
         <div class="result-highlight">
 
-          The Random Forest achieved a substantially higher measured F1 score
-          than the Week-4 baseline on the evaluated grouped-by-client split.
-          This supports further investigation of the model as directional
-          decision-support, subject to human review and the stated limitations.
+          <strong>Key finding:</strong>
+          The Week-4 baseline achieved a higher measured F1 score than the
+          Week-5 Random Forest on the evaluated grouped-by-client split.
+          This means the current evaluation does not demonstrate a model
+          advantage over the baseline.
 
         </div>
+
 
         <!-- Model vs baseline chart -->
 
@@ -1076,11 +1157,13 @@
           <h3>Random Forest feature importance</h3>
 
           <p class="content" style="color: var(--muted);">
+
             The chart below shows variables with higher feature-importance
             values within the fitted Random Forest on the evaluated sample.
             These values describe model behavior and should not be interpreted
             as causal search-ranking factors or proof of Google's ranking
             signals.
+
           </p>
 
           <img
@@ -1098,12 +1181,16 @@
     </section>
 
 
-    <!-- Recommendations -->
+    <!-- ========================================================= -->
+    <!-- RECOMMENDATIONS -->
+    <!-- ========================================================= -->
 
     <section id="recommendations">
       <div class="container">
 
-        <div class="section-label">06 — Ranked Recommendations</div>
+        <div class="section-label">
+          06 — Ranked Recommendations
+        </div>
 
         <h2>An editorial action playbook</h2>
 
@@ -1115,14 +1202,19 @@
           </p>
 
           <p>
-            The final queue contains 30,000 items. In the evaluated queue,
-            the largest measured category is
-            <strong>POSITION_OPPORTUNITY (39.84%)</strong>,
-            followed by <strong>MONITOR (28.63%)</strong> and
-            <strong>THIN_VISIBLE (15.07%)</strong>.
+            The final queue contains
+            <strong>30,000 items</strong>.
+          </p>
+
+          <p>
+            The generated recommendation-distribution figure below shows the
+            current distribution of the five reason codes in the evaluated
+            queue. The exact category counts are preserved in the generated
+            <strong>recommendation_summary.csv</strong> artifact.
           </p>
 
         </div>
+
 
         <div class="recommendations">
 
@@ -1246,18 +1338,20 @@
           <table>
 
             <thead>
+
               <tr>
                 <th>Recommendation</th>
-                <th>Known Share</th>
+                <th>Generated artifact</th>
                 <th>Decision-support action</th>
               </tr>
+
             </thead>
 
             <tbody>
 
               <tr>
                 <td>POSITION_OPPORTUNITY</td>
-                <td>39.84%</td>
+                <td>See recommendation_summary.csv</td>
                 <td>
                   Review position, intent, completeness and structure
                 </td>
@@ -1265,7 +1359,7 @@
 
               <tr>
                 <td>MONITOR</td>
-                <td>28.63%</td>
+                <td>See recommendation_summary.csv</td>
                 <td>
                   Continue monitoring before action
                 </td>
@@ -1273,7 +1367,7 @@
 
               <tr>
                 <td>THIN_VISIBLE</td>
-                <td>15.07%</td>
+                <td>See recommendation_summary.csv</td>
                 <td>
                   Review content depth and missing useful information
                 </td>
@@ -1281,7 +1375,7 @@
 
               <tr>
                 <td>STALE_HIGH_VOLUME</td>
-                <td>See generated summary</td>
+                <td>See recommendation_summary.csv</td>
                 <td>
                   Review older high-visibility content
                 </td>
@@ -1289,7 +1383,7 @@
 
               <tr>
                 <td>REFRESH_REVIEW</td>
-                <td>See generated summary</td>
+                <td>See recommendation_summary.csv</td>
                 <td>
                   Review freshness and potential refresh needs
                 </td>
@@ -1325,6 +1419,7 @@
 
             </div>
 
+
             <div class="relationship-card">
 
               <h3>2. Action Playbook</h3>
@@ -1336,6 +1431,7 @@
               </p>
 
             </div>
+
 
             <div class="relationship-card">
 
@@ -1350,6 +1446,7 @@
             </div>
 
           </div>
+
 
           <div class="warning">
 
@@ -1384,7 +1481,9 @@
     </section>
 
 
-    <!-- Limitations -->
+    <!-- ========================================================= -->
+    <!-- LIMITATIONS -->
+    <!-- ========================================================= -->
 
     <section id="limitations">
       <div class="container">
@@ -1425,6 +1524,7 @@
 
         </div>
 
+
         <div class="warning">
 
           <strong>Honest framing</strong>
@@ -1432,15 +1532,28 @@
           <ul>
 
             <li>
-              Observed result, not guaranteed future performance.
+              The measured Random Forest F1 was 0.6343.
             </li>
 
             <li>
-              Directional evidence, not causal evidence.
+              The measured Week-4 baseline F1 was 0.6812.
             </li>
 
             <li>
-              Decision-support, not automatic decision-making.
+              The baseline therefore outperformed the Random Forest in this
+              evaluation.
+            </li>
+
+            <li>
+              Results are observed on one grouped-by-client evaluation split.
+            </li>
+
+            <li>
+              Results are directional evidence, not causal evidence.
+            </li>
+
+            <li>
+              The output is decision-support, not automatic decision-making.
             </li>
 
             <li>
@@ -1460,7 +1573,9 @@
     </section>
 
 
-    <!-- Reproducibility -->
+    <!-- ========================================================= -->
+    <!-- REPRODUCIBILITY -->
+    <!-- ========================================================= -->
 
     <section id="reproducibility">
       <div class="container">
@@ -1494,6 +1609,7 @@
 
         </div>
 
+
         <div class="repo-links">
 
           <a
@@ -1516,6 +1632,7 @@
 
         </div>
 
+
         <div class="code-box">
 
 Repository:
@@ -1529,13 +1646,20 @@ docs/figures/model_vs_baseline.png
 docs/figures/feature_importance.png
 docs/figures/recommendation_distribution.png
 
+Generated outputs:
+docs/outputs/model_results.csv
+docs/outputs/feature_importance.csv
+docs/outputs/recommendation_summary.csv
+
         </div>
 
       </div>
     </section>
 
 
-    <!-- Acknowledgments -->
+    <!-- ========================================================= -->
+    <!-- ACKNOWLEDGMENTS -->
+    <!-- ========================================================= -->
 
     <section id="acknowledgments">
       <div class="container">
@@ -1584,7 +1708,9 @@ docs/figures/recommendation_distribution.png
   </main>
 
 
-  <!-- Footer -->
+  <!-- ========================================================= -->
+  <!-- FOOTER -->
+  <!-- ========================================================= -->
 
   <footer>
 
