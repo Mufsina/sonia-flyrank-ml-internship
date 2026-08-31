@@ -686,31 +686,36 @@
 
         <div class="content">
 
-          <p class="lead">
-            This study asks whether a machine-learning ranking/scoring approach
-            can help prioritize content pages for human review using observed
-            search visibility, content age, position, and engagement signals.
-            Using an anonymized working sample of 30,000 content observations
-            from the FlyRank ML Internship dataset, the analysis defines a
-            binary target for observed downward trend and evaluates a Random
-            Forest model against a Week-4 baseline using a grouped-by-client
-            validation split.
-          </p>
-
-          <p class="lead">
-            On the evaluated split, the Random Forest achieved a measured
-            F1 score of <strong>0.6343</strong>, while the Week-4 baseline
-            achieved <strong>0.6812</strong>. The baseline therefore performed
-            better on this particular evaluation. The model and observed
-            content signals were then used as evidence layers for a ranked
-            decision-support queue with human-readable reason codes.
-          </p>
-
-          <p class="lead">
-            These results are directional evidence from the evaluated sample
-            and should not be interpreted as causal proof that a recommended
-            content action will improve search performance.
-          </p>
+         <p class="lead">
+          FlyRank's content workflow can involve reviewing many pages while editorial
+          resources are limited, creating a practical prioritization problem: which
+          content pages should receive human attention first for potential refresh or
+          further review? This study investigates whether a machine-learning
+          ranking/scoring approach can support that decision using observed search
+          visibility, content age, position, and engagement signals.
+        </p>
+        
+        <p class="lead">
+          Using an anonymized working sample of 30,000 content observations from the
+          FlyRank ML Internship dataset, the analysis defines a binary target for
+          observed downward trend and evaluates a Random Forest model against a Week-4
+          baseline using a grouped-by-client validation split.
+        </p>
+        
+        <p class="lead">
+          On the evaluated split, the Random Forest achieved a measured F1 score of
+          <strong>0.6343</strong>, while the Week-4 baseline achieved
+          <strong>0.6812</strong>. The baseline therefore performed better on this
+          particular evaluation. Rather than treating the model as an automatic
+          decision-maker, the study uses model evidence and observed content signals
+          to support a ranked human-review queue with human-readable reason codes.
+        </p>
+        
+        <p class="lead">
+          These results are directional evidence from the evaluated sample and should
+          not be interpreted as causal proof that a recommended content action will
+          improve search performance.
+        </p>
 
         </div>
 
@@ -731,25 +736,40 @@
 
         <div class="content">
 
-          <p>
-            Content and SEO teams may need to review a large number of pages
-            while having limited editorial time. The practical question is not
-            simply whether a page is performing well or poorly, but which pages
-            should receive human attention first.
-          </p>
+       
 
           <p>
-            This project frames that problem as a ranking and scoring task.
-            The goal is to turn observed content and search signals into a
-            prioritized review queue.
+            Within the FlyRank content workflow, a practical challenge is deciding
+            which pages deserve human attention first when a large content portfolio
+            must be reviewed with limited editorial and SEO resources. A useful
+            prioritization system should help surface pages that may warrant a closer
+            look for freshness, visibility, content depth, search position, or
+            engagement-related reasons.
+          </p>
+        
+          <p>
+            This capstone treats that operational challenge as a ranking and scoring
+            problem. Instead of attempting to automate editorial decisions, the study
+            investigates whether observed content and search signals can provide
+            useful evidence for constructing a prioritized review queue.
+          </p>
+        
+          <p>
+            The modeling target represents an observed downward trend in the available
+            historical data. A Random Forest classifier is evaluated against the
+            earlier Week-4 baseline using a grouped-by-client split, allowing the
+            analysis to test whether the more complex model provides an advantage
+            beyond the baseline on unseen clients.
+          </p>
+        
+          <p>
+            The result is intentionally framed as decision-support for FlyRank-style
+            content review workflows. The analysis does not claim to predict Google's
+            ranking algorithm, prove why a page changed performance, or establish
+            that refreshing a page will improve search outcomes.
           </p>
 
-          <p>
-            The output is intended as decision-support for editors and
-            SEO/content teams. It is not an automatic prediction that a page
-            will decline, and it does not claim that a recommended action will
-            improve performance.
-          </p>
+</div>
 
         </div>
 
