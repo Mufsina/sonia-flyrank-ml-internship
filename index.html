@@ -1,1 +1,1614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>Content Prioritization | FlyRank ML Capstone</title>
+
+  <meta
+    name="description"
+    content="A machine-learning study for prioritizing content pages for human review using observed search visibility, content age, position, and engagement signals."
+  />
+
+  <style>
+    :root {
+      --bg: #f7f8fc;
+      --card: #ffffff;
+      --text: #171923;
+      --muted: #687083;
+      --border: #e5e7ef;
+      --accent: #5b4bdb;
+      --accent-light: #eeecff;
+      --success: #18794e;
+      --success-light: #e8f7ef;
+      --dark: #151625;
+      --warning: #9a6700;
+      --warning-light: #fffaf0;
+      --shadow: 0 10px 35px rgba(20, 24, 40, 0.07);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      width: min(1120px, 92%);
+      margin: 0 auto;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .logo {
+      font-weight: 800;
+      color: var(--dark);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .hero {
+      padding: 105px 0 85px;
+      background:
+        radial-gradient(circle at 15% 20%, #eeecff 0, transparent 30%),
+        radial-gradient(circle at 85% 30%, #e9f5ff 0, transparent 28%),
+        var(--bg);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 7px 13px;
+      border-radius: 999px;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      max-width: 920px;
+      font-size: clamp(2.6rem, 6vw, 5rem);
+      line-height: 1.03;
+      letter-spacing: -0.055em;
+      margin-bottom: 25px;
+    }
+
+    .hero-subtitle {
+      max-width: 790px;
+      color: var(--muted);
+      font-size: 1.18rem;
+      margin-bottom: 35px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .pill {
+      border: 1px solid var(--border);
+      background: white;
+      padding: 9px 14px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 650;
+      color: var(--muted);
+    }
+
+    section {
+      padding: 85px 0;
+      scroll-margin-top: 75px;
+    }
+
+    section:nth-child(even) {
+      background: #ffffff;
+    }
+
+    .section-label {
+      color: var(--accent);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 25px;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .lead {
+      max-width: 850px;
+      font-size: 1.1rem;
+      color: var(--muted);
+    }
+
+    .content {
+      max-width: 900px;
+    }
+
+    .content p {
+      margin-bottom: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 40px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+    }
+
+    .card-number {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 40px;
+    }
+
+    .stat {
+      background: var(--dark);
+      color: white;
+      border-radius: var(--radius);
+      padding: 30px;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 850;
+      letter-spacing: -0.04em;
+    }
+
+    .stat-label {
+      color: #b8bbca;
+      margin-top: 5px;
+      font-size: 0.9rem;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 40px;
+    }
+
+    .flow-item {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 16px;
+      text-align: center;
+    }
+
+    .flow-item strong {
+      display: block;
+      font-size: 0.95rem;
+    }
+
+    .flow-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.78rem;
+      margin-top: 5px;
+    }
+
+    .feature-list {
+      columns: 2;
+      column-gap: 50px;
+      margin-top: 25px;
+      padding-left: 20px;
+    }
+
+    .feature-list li {
+      margin-bottom: 8px;
+      color: var(--muted);
+      break-inside: avoid;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      margin-top: 40px;
+    }
+
+    .result-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .result-name {
+      font-weight: 750;
+      margin-bottom: 15px;
+    }
+
+    .score {
+      font-size: 3.2rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+    }
+
+    .score-label {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 8px;
+    }
+
+    .bar-container {
+      height: 14px;
+      border-radius: 999px;
+      background: #eceef4;
+      margin-top: 25px;
+      overflow: hidden;
+    }
+
+    .bar {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .baseline-bar {
+      width: 31.8%;
+    }
+
+    .model-bar {
+      width: 100%;
+    }
+
+    .result-highlight {
+      margin-top: 30px;
+      padding: 22px;
+      border-radius: 14px;
+      background: var(--success-light);
+      color: var(--success);
+      font-weight: 650;
+    }
+
+    .chart-card {
+      margin-top: 35px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+    }
+
+    .chart-card img {
+      display: block;
+      width: 100%;
+      max-width: 850px;
+      height: auto;
+      margin: 20px auto 0;
+      border-radius: 12px;
+    }
+
+    .chart-caption {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .recommendations {
+      display: grid;
+      gap: 14px;
+      margin-top: 35px;
+    }
+
+    .recommendation {
+      display: grid;
+      grid-template-columns: 55px 1fr;
+      gap: 18px;
+      align-items: start;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+    }
+
+    .recommendation-number {
+      width: 45px;
+      height: 45px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-weight: 850;
+    }
+
+    .recommendation p {
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      margin-top: 35px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: white;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 650px;
+    }
+
+    th,
+    td {
+      padding: 16px 18px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: #f8f8fb;
+      font-size: 0.84rem;
+    }
+
+    td {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .warning {
+      background: var(--warning-light);
+      border: 1px solid #f1dfb5;
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-top: 35px;
+    }
+
+    .warning strong {
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .warning ul {
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    .relationship {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 18px;
+      margin-top: 35px;
+      align-items: stretch;
+    }
+
+    .relationship-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+    }
+
+    .relationship-card h3 {
+      color: var(--accent);
+    }
+
+    .relationship-card p {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .relationship-arrow {
+      display: grid;
+      place-items: center;
+      font-size: 2rem;
+      color: var(--accent);
+    }
+
+    .code-box {
+      background: var(--dark);
+      color: #e8e9f2;
+      border-radius: 16px;
+      padding: 25px;
+      margin-top: 30px;
+      overflow-x: auto;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 0.9rem;
+    }
+
+    .repo-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    .repo-button {
+      display: inline-block;
+      padding: 11px 17px;
+      background: var(--accent);
+      color: white;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .repo-button:hover {
+      text-decoration: none;
+      opacity: 0.9;
+    }
+
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 55px 0;
+    }
+
+    footer p {
+      color: #b8bbca;
+      max-width: 700px;
+      margin-top: 10px;
+    }
+
+    .footer-bottom {
+      margin-top: 35px;
+      padding-top: 20px;
+      border-top: 1px solid #2d2f42;
+      font-size: 0.82rem;
+      color: #9699aa;
+    }
+
+    @media (max-width: 850px) {
+      .nav-inner {
+        padding: 12px 0;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .nav-links {
+        gap: 12px;
+      }
+
+      .grid,
+      .stats,
+      .results-grid,
+      .relationship {
+        grid-template-columns: 1fr;
+      }
+
+      .flow {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-list {
+        columns: 1;
+      }
+
+      .hero {
+        padding: 70px 0 60px;
+      }
+    }
+
+    @media (max-width: 550px) {
+      section {
+        padding: 60px 0;
+      }
+
+      .hero-meta {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      h1 {
+        font-size: 2.6rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+
+  <nav>
+    <div class="container nav-inner">
+
+      <div class="logo">
+        FlyRank ML Capstone
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#abstract">Abstract</a></li>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#data">Data</a></li>
+        <li><a href="#methodology">Methodology</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#recommendations">Recommendations</a></li>
+        <li><a href="#limitations">Limitations</a></li>
+        <li><a href="#reproducibility">Reproducibility</a></li>
+      </ul>
+
+    </div>
+  </nav>
+
+
+  <!-- Hero -->
+
+  <header class="hero">
+    <div class="container">
+
+      <div class="eyebrow">
+        Machine Learning Capstone
+      </div>
+
+      <h1>
+        Machine-Learning-Based Content Prioritization for Search Visibility Review
+      </h1>
+
+      <p class="hero-subtitle">
+        Using observed search visibility, content age, position, and engagement
+        signals to help prioritize content pages for human review.
+      </p>
+
+      <div class="hero-meta">
+        <span class="pill">FlyRank ML Internship Dataset</span>
+        <span class="pill">Ranking / Scoring</span>
+        <span class="pill">Random Forest</span>
+        <span class="pill">Grouped-by-Client Validation</span>
+      </div>
+
+    </div>
+  </header>
+
+
+  <main>
+
+    <!-- Abstract -->
+
+    <section id="abstract">
+      <div class="container">
+
+        <div class="section-label">01 — Abstract</div>
+
+        <h2>Research at a glance</h2>
+
+        <div class="content">
+
+          <p class="lead">
+            This study asks whether a machine-learning ranking/scoring approach
+            can help prioritize content pages for human review using observed
+            search visibility, content age, position, and engagement signals.
+            Using an anonymized working sample of 30,000 content observations
+            from the FlyRank ML Internship dataset, the analysis defines a
+            binary target for observed downward trend and evaluates a Random
+            Forest model against a Week-4 baseline using a grouped-by-client
+            validation split. The Random Forest achieved a measured F1 score
+            of 0.5913 compared with 0.1881 for the baseline on the same
+            evaluation framing. The model and observed content signals were
+            then used as separate evidence layers for a ranked
+            decision-support queue with human-readable reason codes. These
+            results are directional evidence from the evaluated sample and
+            should not be interpreted as causal proof that a recommended
+            content action will improve search performance.
+          </p>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- Introduction -->
+
+    <section id="introduction">
+      <div class="container">
+
+        <div class="section-label">02 — Introduction</div>
+
+        <h2>The decision this work supports</h2>
+
+        <div class="content">
+
+          <p>
+            Content and SEO teams may need to review a large number of pages
+            while having limited editorial time. The practical question is not
+            simply whether a page is performing well or poorly, but which pages
+            should receive human attention first.
+          </p>
+
+          <p>
+            This project frames that problem as a ranking and scoring task.
+            The goal is to turn observed content and search signals into a
+            prioritized review queue.
+          </p>
+
+          <p>
+            The output is intended as decision-support for editors and
+            SEO/content teams. It is not an automatic prediction that a page
+            will decline, and it does not claim that a recommended action will
+            improve performance.
+          </p>
+
+        </div>
+
+        <div class="grid">
+
+          <div class="card">
+            <div class="card-number">DECISION</div>
+            <h3>What to review first?</h3>
+            <p>
+              Prioritize content pages for human review when editorial
+              resources are limited.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-number">INPUT</div>
+            <h3>Observed signals</h3>
+            <p>
+              Search visibility, engagement, content age, freshness,
+              position, and related content attributes.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-number">OUTPUT</div>
+            <h3>Ranked queue</h3>
+            <p>
+              A decision-support queue with reason codes and recommended
+              review actions.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- Data -->
+
+    <section id="data">
+      <div class="container">
+
+        <div class="section-label">03 — Data</div>
+
+        <h2>Dataset and working sample</h2>
+
+        <div class="content">
+
+          <p>
+            This project uses the FlyRank ML Internship dataset provided for
+            the internship track. The working dataset contains anonymized
+            content-level observations.
+          </p>
+
+          <p>
+            The evaluated working sample contains 30,000 rows, 44 columns,
+            and 32 clients. The analysis focuses on public-safe aggregate
+            signals such as search volume, competition, impressions, clicks,
+            pageviews, sessions, content age, freshness, search position,
+            and engagement-related measures.
+          </p>
+
+          <p>
+            The modeling target is derived from
+            <strong>trend_direction</strong>. A value of
+            <strong>down</strong> is represented as 1, while
+            <strong>up</strong> and <strong>stable</strong> are represented
+            as 0.
+          </p>
+
+        </div>
+
+        <div class="stats">
+
+          <div class="stat">
+            <div class="stat-value">30K</div>
+            <div class="stat-label">Content observations</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-value">44</div>
+            <div class="stat-label">Columns in working dataset</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-value">32</div>
+            <div class="stat-label">Clients represented</div>
+          </div>
+
+        </div>
+
+        <div class="card" style="margin-top: 30px;">
+
+          <h3>Excluded from model features</h3>
+
+          <p>
+            Identifier fields such as <strong>client_id</strong> and
+            <strong>content_id</strong> were not used as model features.
+            Target-related fields such as
+            <strong>trend_direction</strong>,
+            <strong>trend_pct</strong>, and the derived
+            <strong>target_down</strong> label were also excluded from the
+            model feature set to reduce direct target leakage.
+          </p>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- Methodology -->
+
+    <section id="methodology">
+      <div class="container">
+
+        <div class="section-label">04 — Methodology</div>
+
+        <h2>From observed signals to model evaluation</h2>
+
+        <div class="content">
+
+          <p>
+            The task is framed as a ranking/scoring problem for content
+            prioritization. The model predicts whether the observed trend
+            direction is <strong>down</strong>.
+          </p>
+
+          <p>
+            The binary target is defined as 1 when
+            <strong>trend_direction = down</strong> and 0 when
+            <strong>trend_direction = up or stable</strong>.
+            The source target column and derived target label are excluded
+            from the model feature set to avoid direct target leakage.
+          </p>
+
+          <p>
+            A Random Forest classifier was used as the Week-5 model. The
+            Week-4 baseline provides the comparison point.
+          </p>
+
+          <p>
+            The model uses 34 content and performance features covering search
+            demand, competition, content length, impressions, clicks,
+            pageviews, sessions, users, engagement signals, content age,
+            freshness, search position, and categorical content attributes.
+          </p>
+
+          <p>
+            Validation uses a grouped-by-client split so that content from
+            the same client does not appear in both training and test data.
+            The evaluated split contained 25 training clients and 7 test
+            clients, with zero client overlap.
+          </p>
+
+          <p>
+            A feature-level leakage audit found no target-related columns or
+            identifier columns in the final feature list. This reduces the
+            risk of direct leakage, but it does not prove that every feature
+            is temporally independent of the target.
+          </p>
+
+          <p>
+            The model is therefore interpreted as decision-support evidence
+            for prioritization rather than as a causal model or a guarantee
+            of future content performance.
+          </p>
+
+        </div>
+
+        <div class="flow">
+
+          <div class="flow-item">
+            <strong>Features</strong>
+            <span>Observed signals</span>
+          </div>
+
+          <div class="flow-item">
+            <strong>Binary Target</strong>
+            <span>Down = 1</span>
+          </div>
+
+          <div class="flow-item">
+            <strong>Random Forest</strong>
+            <span>Week-5 model</span>
+          </div>
+
+          <div class="flow-item">
+            <strong>Grouped Split</strong>
+            <span>By client</span>
+          </div>
+
+          <div class="flow-item">
+            <strong>F1 Evaluation</strong>
+            <span>Model vs baseline</span>
+          </div>
+
+        </div>
+
+        <div class="card" style="margin-top: 30px;">
+
+          <h3>Feature groups</h3>
+
+          <ul class="feature-list">
+
+            <li>Search volume</li>
+            <li>Competition</li>
+            <li>CPC</li>
+            <li>Word count</li>
+            <li>Character count</li>
+            <li>Impressions</li>
+            <li>Clicks</li>
+            <li>Pageviews</li>
+            <li>Sessions</li>
+            <li>Users</li>
+            <li>Engaged sessions</li>
+            <li>AI sessions</li>
+            <li>Scroll events</li>
+            <li>Days with impressions</li>
+            <li>Days with sessions</li>
+            <li>Content age</li>
+            <li>Days since last update</li>
+            <li>CTR</li>
+            <li>Average position</li>
+            <li>Engagement rate</li>
+            <li>Scroll rate</li>
+            <li>AI traffic percentage</li>
+            <li>Content type</li>
+            <li>Main intent</li>
+            <li>Provider used</li>
+            <li>Model used</li>
+            <li>Freshness tier</li>
+            <li>Position tier</li>
+
+          </ul>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- Results -->
+
+    <section id="results">
+      <div class="container">
+
+        <div class="section-label">05 — Results</div>
+
+        <h2>Model versus baseline</h2>
+
+        <div class="content">
+
+          <p>
+            On the evaluated grouped-by-client split, the Week-5 Random Forest
+            produced a measured F1 score of <strong>0.5913</strong>. The
+            Week-4 baseline produced an F1 score of
+            <strong>0.1881</strong> on the same evaluation framing.
+          </p>
+
+          <p>
+            The Random Forest therefore showed a higher measured F1 score than
+            the baseline in this evaluation. This is an observed result on the
+            evaluated data, not evidence that the model will perform the same
+            way on all future clients or datasets.
+          </p>
+
+        </div>
+
+        <div class="results-grid">
+
+          <div class="result-card">
+
+            <div class="result-name">
+              Week-4 Baseline
+            </div>
+
+            <div class="score">
+              0.1881
+            </div>
+
+            <div class="score-label">
+              Measured F1 score
+            </div>
+
+            <div class="bar-container">
+              <div class="bar baseline-bar"></div>
+            </div>
+
+          </div>
+
+          <div class="result-card">
+
+            <div class="result-name">
+              Week-5 Random Forest
+            </div>
+
+            <div class="score">
+              0.5913
+            </div>
+
+            <div class="score-label">
+              Measured F1 score
+            </div>
+
+            <div class="bar-container">
+              <div class="bar model-bar"></div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="result-highlight">
+
+          The Random Forest achieved a substantially higher measured F1 score
+          than the Week-4 baseline on the evaluated grouped-by-client split.
+          This supports further investigation of the model as directional
+          decision-support, subject to human review and the stated limitations.
+
+        </div>
+
+        <!-- Model vs baseline chart -->
+
+        <div class="chart-card">
+
+          <h3>Model versus baseline evaluation</h3>
+
+          <img
+            src="figures/model_vs_baseline.png"
+            alt="Bar chart comparing Random Forest F1 score with the Week-4 baseline"
+          />
+
+          <p class="chart-caption">
+            Measured F1 scores on the evaluated grouped-by-client split.
+          </p>
+
+        </div>
+
+
+        <!-- Feature importance -->
+
+        <div class="chart-card">
+
+          <h3>Random Forest feature importance</h3>
+
+          <p class="content" style="color: var(--muted);">
+            The chart below shows variables with higher feature-importance
+            values within the fitted Random Forest on the evaluated sample.
+            These values describe model behavior and should not be interpreted
+            as causal search-ranking factors or proof of Google's ranking
+            signals.
+          </p>
+
+          <img
+            src="figures/feature_importance.png"
+            alt="Top Random Forest feature importance chart"
+          />
+
+          <p class="chart-caption">
+            Top model feature importances in the evaluated sample.
+          </p>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- Recommendations -->
+
+    <section id="recommendations">
+      <div class="container">
+
+        <div class="section-label">06 — Ranked Recommendations</div>
+
+        <h2>An editorial action playbook</h2>
+
+        <div class="content">
+
+          <p>
+            The action playbook converts observed content signals into a
+            ranked decision-support queue for editors and SEO/content teams.
+          </p>
+
+          <p>
+            The final queue contains 30,000 items. In the evaluated queue,
+            the largest measured category is
+            <strong>POSITION_OPPORTUNITY (39.84%)</strong>,
+            followed by <strong>MONITOR (28.63%)</strong> and
+            <strong>THIN_VISIBLE (15.07%)</strong>.
+          </p>
+
+        </div>
+
+        <div class="recommendations">
+
+          <div class="recommendation">
+
+            <div class="recommendation-number">
+              01
+            </div>
+
+            <div>
+              <h3>STALE_HIGH_VOLUME</h3>
+
+              <p>
+                Review older content with substantial observed search
+                visibility. Consider whether information is outdated or
+                whether a refresh is justified.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="recommendation">
+
+            <div class="recommendation-number">
+              02
+            </div>
+
+            <div>
+              <h3>THIN_VISIBLE</h3>
+
+              <p>
+                Review content with relatively limited content depth and
+                existing visibility for useful expansion, missing subtopics,
+                examples, and definitions.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="recommendation">
+
+            <div class="recommendation-number">
+              03
+            </div>
+
+            <div>
+              <h3>POSITION_OPPORTUNITY</h3>
+
+              <p>
+                Review search intent, completeness, internal links, and page
+                structure where observed average position suggests a potential
+                review opportunity.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="recommendation">
+
+            <div class="recommendation-number">
+              04
+            </div>
+
+            <div>
+              <h3>REFRESH_REVIEW</h3>
+
+              <p>
+                Review freshness, potentially outdated information, and
+                whether a content refresh is warranted.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="recommendation">
+
+            <div class="recommendation-number">
+              05
+            </div>
+
+            <div>
+              <h3>MONITOR</h3>
+
+              <p>
+                Monitor performance before taking action when current evidence
+                is not strong enough to justify immediate review.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- Recommendation chart -->
+
+        <div class="chart-card">
+
+          <h3>Recommendation distribution</h3>
+
+          <img
+            src="figures/recommendation_distribution.png"
+            alt="Distribution of content recommendation reason codes"
+          />
+
+          <p class="chart-caption">
+            Distribution of reason codes across the 30,000-item action queue.
+          </p>
+
+        </div>
+
+
+        <!-- Recommendation table -->
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Recommendation</th>
+                <th>Known Share</th>
+                <th>Decision-support action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td>POSITION_OPPORTUNITY</td>
+                <td>39.84%</td>
+                <td>
+                  Review position, intent, completeness and structure
+                </td>
+              </tr>
+
+              <tr>
+                <td>MONITOR</td>
+                <td>28.63%</td>
+                <td>
+                  Continue monitoring before action
+                </td>
+              </tr>
+
+              <tr>
+                <td>THIN_VISIBLE</td>
+                <td>15.07%</td>
+                <td>
+                  Review content depth and missing useful information
+                </td>
+              </tr>
+
+              <tr>
+                <td>STALE_HIGH_VOLUME</td>
+                <td>See generated summary</td>
+                <td>
+                  Review older high-visibility content
+                </td>
+              </tr>
+
+              <tr>
+                <td>REFRESH_REVIEW</td>
+                <td>See generated summary</td>
+                <td>
+                  Review freshness and potential refresh needs
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+        <!-- Model / Playbook relationship -->
+
+        <div style="margin-top: 65px;">
+
+          <div class="section-label">
+            Model + Playbook Relationship
+          </div>
+
+          <h2>How the two layers work together</h2>
+
+          <div class="relationship">
+
+            <div class="relationship-card">
+
+              <h3>1. Random Forest</h3>
+
+              <p>
+                Provides a model-based signal for whether a content item is
+                associated with the observed downward-trend class.
+              </p>
+
+            </div>
+
+            <div class="relationship-card">
+
+              <h3>2. Action Playbook</h3>
+
+              <p>
+                Uses observed content signals such as freshness, impressions,
+                word count, and average position to assign human-readable
+                reason codes.
+              </p>
+
+            </div>
+
+            <div class="relationship-card">
+
+              <h3>3. Human Review</h3>
+
+              <p>
+                Editors consider the model evidence and content signals
+                together with page context, search intent, and business
+                importance before taking action.
+              </p>
+
+            </div>
+
+          </div>
+
+          <div class="warning">
+
+            <strong>Important distinction</strong>
+
+            <ul>
+
+              <li>
+                The Random Forest is the model-evidence layer.
+              </li>
+
+              <li>
+                The action playbook is the operational prioritization layer.
+              </li>
+
+              <li>
+                The Random Forest does not automatically determine the
+                recommended action.
+              </li>
+
+              <li>
+                Final content decisions remain subject to human review.
+              </li>
+
+            </ul>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- Limitations -->
+
+    <section id="limitations">
+      <div class="container">
+
+        <div class="section-label">
+          07 — Limitations & Honest Framing
+        </div>
+
+        <h2>What this study cannot claim</h2>
+
+        <div class="content">
+
+          <p>
+            This study provides measured, directional evidence for content
+            prioritization, but it does not establish that the model will
+            generalize to every client or future search environment.
+          </p>
+
+          <p>
+            The model predicts whether a content item is associated with a
+            downward trend based on the available features and historical
+            data. It does not prove that a recommended refresh will cause
+            traffic or rankings to improve.
+          </p>
+
+          <p>
+            The grouped-by-client validation reduces the risk of evaluating
+            on clients seen during training, but the evaluation uses one
+            grouped split and should not be treated as a guarantee of future
+            performance.
+          </p>
+
+          <p>
+            The leakage audit found no direct target-related or identifier
+            columns in the final feature set, but this does not prove that
+            every feature is temporally independent of the target.
+          </p>
+
+        </div>
+
+        <div class="warning">
+
+          <strong>Honest framing</strong>
+
+          <ul>
+
+            <li>
+              Observed result, not guaranteed future performance.
+            </li>
+
+            <li>
+              Directional evidence, not causal evidence.
+            </li>
+
+            <li>
+              Decision-support, not automatic decision-making.
+            </li>
+
+            <li>
+              Human review remains required before content changes.
+            </li>
+
+            <li>
+              The model should not be described as revealing Google's
+              ranking algorithm or ranking factors.
+            </li>
+
+          </ul>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- Reproducibility -->
+
+    <section id="reproducibility">
+      <div class="container">
+
+        <div class="section-label">
+          08 — Reproducibility
+        </div>
+
+        <h2>How to reproduce the analysis</h2>
+
+        <div class="content">
+
+          <p>
+            The analysis is reproducible from the project repository and the
+            capstone notebook.
+          </p>
+
+          <p>
+            The repository contains the weekly assignment notebooks and the
+            final capstone notebook under
+            <strong>work/notebooks/</strong>. The capstone notebook contains
+            the research question, data description, feature definition,
+            leakage checks, model evaluation, recommendation logic, and
+            artifact generation used in this study.
+          </p>
+
+          <p>
+            The generated figures include the model-versus-baseline comparison,
+            Random Forest feature importance, and recommendation distribution.
+          </p>
+
+        </div>
+
+        <div class="repo-links">
+
+          <a
+            class="repo-button"
+            href="https://github.com/Mufsina/sonia-flyrank-ml-internship"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View GitHub Repository
+          </a>
+
+          <a
+            class="repo-button"
+            href="https://github.com/Mufsina/sonia-flyrank-ml-internship/blob/main/work/notebooks/capstone.ipynb"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View Capstone Notebook
+          </a>
+
+        </div>
+
+        <div class="code-box">
+
+Repository:
+https://github.com/Mufsina/sonia-flyrank-ml-internship
+
+Capstone notebook:
+work/notebooks/capstone.ipynb
+
+Figures:
+docs/figures/model_vs_baseline.png
+docs/figures/feature_importance.png
+docs/figures/recommendation_distribution.png
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- Acknowledgments -->
+
+    <section id="acknowledgments">
+      <div class="container">
+
+        <div class="section-label">
+          09 — Acknowledgments & Data Credit
+        </div>
+
+        <h2>Data and internship credit</h2>
+
+        <div class="content">
+
+          <p>
+            This project was completed as part of the
+            <strong>FlyRank ML Internship track</strong>.
+          </p>
+
+          <p>
+            The analysis was built on the FlyRank ML Internship dataset and
+            uses anonymized content-level observations for research and
+            educational analysis.
+          </p>
+
+          <p>
+            Data credit:
+            <a
+              href="https://flyrank.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              FlyRank
+            </a>
+          </p>
+
+          <p>
+            The results presented here are based on the evaluated working
+            sample and are intended for decision-support and research
+            purposes.
+          </p>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- Footer -->
+
+  <footer>
+
+    <div class="container">
+
+      <h2>
+        Machine-Learning-Based Content Prioritization
+      </h2>
+
+      <p>
+        A FlyRank ML Internship capstone study on using observed search and
+        engagement signals to prioritize content pages for human review.
+      </p>
+
+      <div class="footer-bottom">
+
+        Built for the FlyRank ML Internship Capstone ·
+        Machine Learning Track · 2026
+
+      </div>
+
+    </div>
+
+  </footer>
+
+</body>
+</html>
